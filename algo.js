@@ -140,6 +140,6 @@ console.log(isMatch("aaa", "ab*c*a"))
 //      2. check if inputnode.next does not equal null
 //          a. if this is so, set node.next.prev to node.prev
 //      3. set node.prev to null;
-//      4. set node.next to null 
+//      4. set node.next to null  hello 
 
 ///
