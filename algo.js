@@ -143,3 +143,7 @@ console.log(isMatch("aaa", "ab*c*a"))
 //      4. set node.next to null  hello 
 
 ///
+
+function hello(){
+    console.log("hello"); 
+}
