@@ -64,7 +64,7 @@ function possibleToDelete(s, p, i){
     return false; 
 }
 
-console.log(isMatch("aaa", "ab*c*a"))
+
 
 
 //Node constructor pseudo code
@@ -144,6 +144,33 @@ console.log(isMatch("aaa", "ab*c*a"))
 
 ///
 
-function hello(){
-    console.log("hello"); 
+function findThreeLargestNumbers(array) {
+    let threeLargestNumbers = [null, null, null];
+    for (let i = 0; i < array.length; i++) {
+        if (array[i] > threeLargestNumbers[2] || threeLargestNumbers[2] === null) {
+            threeLargestNumbers = thirdPos(array[i], threeLargestNumbers);
+            continue;
+        }
+        if (array[i] > threeLargestNumbers[1] || threeLargestNumbers[1] === null) {
+            threeLargestNumbers = secondPos(array[i], threeLargestNumbers);
+            continue;
+        }
+        if (array[i] > threeLargestNumbers[0] || threeLargestNumbers[0] === null) {
+            threeLargestNumbers[0] = array[i];
+            continue;
+        }
+    }
+    return threeLargestNumbers;
 }
+
+function thirdPos(ele, array) {
+    let pos0 = array[1];
+    let pos1 = array[2];
+    return [pos0, pos1, ele]
+}
+
+function secondPos(ele, array) {
+    return [array[1], ele, array[2]]
+}
+
+console.log(findThreeLargestNumbers([55, 43, 11, 3, -3, 10]))
