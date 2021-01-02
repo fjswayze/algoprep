@@ -316,6 +316,7 @@ function generateHash(pattern) {
     return hash;
 }
 ///jdfiajs;dlkfjlksadjlfkj
+//ksjlfkjsal;dkjflskdj
 
 
 function smallestSubstringContaining(bigString, smallString) {
