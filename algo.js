@@ -173,4 +173,191 @@ function secondPos(ele, array) {
     return [array[1], ele, array[2]]
 }
 
-console.log(findThreeLargestNumbers([55, 43, 11, 3, -3, 10]))
+function longestSubstringWithoutDuplication(string) {
+	let longestSub = []; 
+	let mostRecent = {}; 
+	let startingIndex = 0; 
+  for(let i = 0; i < string.length; i++){
+		if(string[i] in mostRecent){
+			startingIndex = mostRecent[string[i]] + 1; 
+		} else{
+			startingIndex = 0; 
+        }
+        
+		let sub = string.slice(startingIndex, i + 1); 
+        if(sub.length > longestSub.length) longestSub = sub; 
+        console.log(sub); 
+	 	mostRecent[string[i]] = i; 
+	}
+	return longestSub; 
+}
+
+
+
+function underscorifySubstring(string, substring) {
+    const length = substring.length ;
+    let newString = "";
+    for (let i = 0; i < string.length; i++) {
+        if (string.slice(i, i + length) === substring) {
+            let rightIndex = i + length - 1;
+            let prevIndex = rightIndex;
+            while(string.slice(rightIndex, rightIndex + length) === substring) {
+                console.log("hit")
+                prevIndex = rightIndex;
+                rightIndex = rightIndex + length - 1;
+            }
+            newString += ("_" + string.slice(i, prevIndex + 1) + "_")
+            i = prevIndex;
+        } else {
+            newString += string[i];
+        }
+    }
+    return newString;
+}
+
+function patternMatcher(pattern, string) {
+    let swaped = false;
+    if (pattern[0] !== "x") {
+        pattern = swap(pattern);
+        swaped = true;
+    }
+    let hash = generateHash(pattern);
+    let possibleLengths = generateLengths(hash, string);
+    
+    for (let i = 0; i < possibleLengths.length; i++) {
+        let x = generateX(string, possibleLengths, i);
+        let y = generateY(string, possibleLengths, i);
+        let sub = generateSub(x, y, pattern);
+        console.log(sub); 
+        if (sub === string) {
+            if (swaped) {
+                return [y, x];
+            } else {
+                return [x, y];
+            }
+        }
+    }
+    if(Object.keys(hash).length === 1){
+        let sub = string.slice(0, string.length / pattern.length); 
+        if(swaped){
+            return ["", sub]; 
+        } else{
+            return [sub, ""]; 
+        }
+        
+    }
+    return [];
+}
+
+
+
+function generateSub(x, y, pattern) {
+    let newString = "";
+    for (let i = 0; i < pattern.length; i++) {
+        if (pattern[i] === "x") {
+            newString += x
+        }
+        if (pattern[i] === "y") {
+            newString += y
+        }
+    }
+    return newString;
+}
+
+function generateX(string, possibleLengths, i) {
+    return string.slice(0, possibleLengths[i][0])
+}
+
+function generateY(string, possibleLengths, i) {
+    let firstPos = possibleLengths[i][2];
+    let length = possibleLengths[i][1]
+    return string.slice(firstPos, firstPos + length)
+}
+
+function generateLengths(hash, string) {
+    let lengths = [];
+    for (let i = 1; i < string.length; i++) {
+        let ylength = string.length - (i * hash["x"]);
+        ylength = ylength / hash["y"];
+        if (ylength > 0) {
+            lengths.push([i, ylength, hash["firstPos"] * i]);
+        } else {
+            break;
+        }
+    }
+    return lengths;
+}
+
+function swap(pattern) {
+    let swapped = "";
+    for (let i = 0; i < pattern.length; i++) {
+        if (pattern[i] === "x") {
+            swapped += "y"
+        } else {
+            swapped += "x"
+        }
+    }
+    return swapped;
+}
+
+function generateHash(pattern) {
+    let hash = {};
+    for (let i = 0; i < pattern.length; i++) {
+        if (pattern[i] === "y") {
+            hash["firstPos"] = hash["firstPos"] || i;
+            hash["y"] = hash["y"] || 0;
+            hash["y"] += 1;
+        }
+        if (pattern[i] === "x") {
+            hash["x"] = hash["x"] || 0;
+            hash["x"] += 1;
+        }
+    }
+    return hash;
+}
+///jdfiajs;dlkfjlksadjlfkj
+
+
+function smallestSubstringContaining(bigString, smallString) {
+    let smallHash = generateHash(smallString);
+    let smallest = bigString.slice();
+
+    for (let i = 0; i < bigString.length; i++) {
+        if (smallest.length > bigString.length - i) break;
+        if (!(bigString[i] in smallHash)) continue;
+        let rightIndex = i + 1;
+        while (!containsAll(smallHash, bigString.slice(i, rightIndex)) && rightIndex < bigString.length) {
+            rightIndex++;
+        }
+        let sub = bigString.slice(i, rightIndex);
+        if (containsAll(smallHash, sub) && sub.length < smallest.length) {
+            smallest = sub;
+        }
+    }
+    if(containsAll(smallHash, smallest)){
+        return smallest
+    } else{
+        return ""
+    }
+}
+
+function generateHash(string) {
+    let hash = {};
+    for (let i = 0; i < string.length; i++) {
+        hash[string[i]] = hash[string[i]] || 0;
+        hash[string[i]] += 1;
+    }
+    return hash;
+}
+
+function containsAll(hash, sub) {
+    let bigHash = generateHash(sub);
+    let keys = Object.keys(hash);
+    for (let j = 0; j < keys.length; j++) {
+        if (!(keys[j] in bigHash) || hash[keys[j]] > bigHash[keys[j]]) return false;
+    }
+    return true;
+}
+
+
+console.log(smallestSubstringContaining("abcd$ef$axb$c$", "$$abf"))
