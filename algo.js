@@ -319,6 +319,9 @@ function generateHash(pattern) {
 //ksjlfkjsal;dkjflskdj
 
 
+//kdsjlakdjslkfjsljdskajdk
+
+
 function smallestSubstringContaining(bigString, smallString) {
     let smallHash = generateHash(smallString);
     let smallest = bigString.slice();
