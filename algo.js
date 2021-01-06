@@ -364,4 +364,28 @@ function containsAll(hash, sub) {
 }
 
 
-console.log(smallestSubstringContaining("abcd$ef$axb$c$", "$$abf"))
+var groupAnagrams = function (strs) {
+    let anagramsHash = {};
+    for (let i = 0; i < strs.length; i++) {
+        let alphabatized = strs[i].split("").sort().join("");
+        if (alphabatized in anagramsHash) {
+            anagramsHash[alphabatized].push(strs[i]);
+        } else {
+            anagramsHash[alphabatized] = [strs[i]];
+        }
+    }
+    return Object.values(anagramsHash);
+};
+
+
+var removeElement = function (nums, val) {
+    for (let i = 0; i < nums.length; i++) {
+        if (nums[i] === val) {
+            nums = nums.slice(0, i).concat(nums.slice(i + 1));
+        }
+    }
+    console.log(nums); 
+    return nums.length;
+};
+
+console.log(removeElement([3, 2, 2, 3], 3))
