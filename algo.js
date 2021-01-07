@@ -388,4 +388,15 @@ var removeElement = function (nums, val) {
     return nums.length;
 };
 
-console.log(removeElement([3, 2, 2, 3], 3))
+
+
+function testArray(array){
+    let index = 0; 
+    while(array[index]){
+        console.log(index); 
+        index += 1; 
+    }
+    return "hello"; 
+}
+
+console.log(testArray([0, 1, 2])); 
