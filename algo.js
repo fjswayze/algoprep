@@ -112,8 +112,8 @@ function possibleToDelete(s, p, i){
 //          5. check if node !== null
 //                  a. if it doesn't, call insertBefore on the variable nod and nodeToInsert
 //                  b. if it does, cal setTail on nodeToInsert
-
-
+//jksadjfklsajdlfkjasdlkfjlaksdjfkasdj
+//djfkasdjkfjasd
 // function removeNodesWithValue(value)
 //          1. set node vaiable to the LL' head
 //          2. while the node !== null
@@ -399,4 +399,37 @@ function testArray(array){
     return "hello"; 
 }
 
-console.log(testArray([0, 1, 2])); 
+
+
+function maxSumIncreasingSubsequence(array) {
+    let max = null;
+    let subsequences = [];
+    for (let i = 0; i < array.length; i++) {
+        subsequences.push(maxSumAtIndex(i, array));
+    }
+    max = findMax(subsequences); 
+    return [max.reduce((a, b) => a + b), max]; 
+}
+
+function findMax(array) {
+    let max = [Number.NEGATIVE_INFINITY];
+    for (let i = 0; i < array.length; i++) {
+        if(array[i].reduce((a, b) => a + b) > max.reduce((a, b) => a + b)) max = array[i]; 
+    }
+    return max
+}
+
+function maxSumAtIndex(index, array) {
+    let min = Number.NEGATIVE_INFINITY;
+    let subsequence = [array[index]];
+    let max = array[index];
+    for (let i = 0; i < index; i++) {
+        if (array[i] < max && array[i] > min) {
+            subsequence.unshift(array[i]);
+            min = array[i];
+        }
+    }
+    return subsequence.sort((a, b) => a - b);
+}
+
+console.log(maxSumIncreasingSubsequence([10, 70, 20, 30, 50, 11, 30])); 
