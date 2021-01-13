@@ -432,4 +432,30 @@ function maxSumAtIndex(index, array) {
     return subsequence.sort((a, b) => a - b);
 }
 
-console.log(maxSumIncreasingSubsequence([10, 70, 20, 30, 50, 11, 30])); 
+var threeSum = function (nums) {
+    inputed = {}; 
+    nums.sort((a, b) => (a - b))
+    let result = []
+    for (let i = 0; i < nums.length - 2; i++) {
+        let left = i + 1;
+        let right = nums.length - 1
+        while (left < right) {
+            let sum = nums[i] + nums[left] + nums[right];
+            if (sum === 0) {
+                let key = nums[i].toString() + nums[left].toString() +  nums[right].toString(); 
+                if(!inputed[key])result.push([nums[i], nums[left], nums[right]]);
+                inputed[key] = true; 
+                left++;
+                right--;
+            } else if (sum < 0) {
+                left++;
+            } else if (sum > 0) {
+                right--;
+            }
+        }
+    }
+    return result;
+};
+
+
+console.log(threeSum([-1, 0, 1, 2, -1, -4])); 
