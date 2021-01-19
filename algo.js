@@ -458,4 +458,74 @@ var threeSum = function (nums) {
 };
 
 
-console.log(threeSum([-1, 0, 1, 2, -1, -4])); 
+var lengthOfLastWord = function (s) {
+    let array = s.split(" ");
+    for (let i = array.length - 1; i >= 0; i--) {
+        if (array[i] !== "") return array[i].length;
+    }
+    return 0;
+};
+
+
+var removeDuplicates = function (nums) {
+    for (let i = 1; i < nums.length; i++) {
+        if (nums[i] === nums[i - 1]) {
+            nums = nums.slice(0, i).concat(nums.slice(i + 1));
+        }
+    }
+    return nums;
+};
+
+var plusOne = function (digits) {
+    for (let i = digits.length - 1; i >= 0; i--) {
+        if (i === 0 && digits[i] === 9) {
+            digits[i] = 0
+            digits.unshift(1);
+            break
+        }
+
+        if (digits[i] < 9) {
+            digits[i] = digits[i] + 1;
+        } else {
+            digits[i] = 0;
+        }
+    }
+    return digits
+};
+
+var addBinary = function (a, b) {
+    let returnArray = [];
+    a = a.split("").reverse(); 
+    b = b.split("").reverse(); 
+   
+    let longest = Math.max(a.length, b.length);
+    let caryOver = false;
+    for (let i = 0; i < longest; i++) {
+        if (caryOver === false) {
+            if (a[i] == 1 && b[i] == 1) {
+                returnArray.unshift(0);
+                caryOver = true;
+            } else if (a[i] == 1 || b[i] == 1) {
+
+                returnArray.unshift(1);
+            } else {
+                returnArray.unshift(0);
+            }
+        } else {
+            if ((a[i] == 1 && b[i] == 1)) {
+                returnArray.unshift(1);
+            }
+            else if (a[i] == 1 || b[i] == 1) {
+                returnArray.unshift(0);
+            } else {
+                returnArray.unshift(1);
+                caryOver = false;
+            }
+        }
+    }
+    if (caryOver === true) returnArray.unshift(1);
+    return returnArray.join("");
+
+};
+
+console.log(addBinary("11", "1"))
