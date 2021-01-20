@@ -544,4 +544,28 @@ var climbStairs = function(n) {
   return all_ways; 
 };
 
-console.log(climbStairs(5)); 
+var maxProfit = function(prices) {
+    let sum = 0; 
+    let valley = null; 
+    let peak = null; 
+    for(let i = 0; i < prices.length; i++){
+        if(i === 0){
+            if(prices[i] < prices[i + 1]) valley = prices[i]; 
+        } else if (i !== prices.length - 1){
+            if(prices[i] < prices[i - 1] && prices[i] < prices[i + 1]) valley = prices[i]; 
+        }
+        if(i === prices.length - 1){
+            if(prices[i] > prices[i - 1]) peak = prices[i]; 
+        } else if (valley !== null){
+            if(prices[i] > prices[i - 1] && prices[i] > prices[i + 1]) peak = prices[i]; 
+            }
+        if(peak !== null && valley !== null){
+            sum += peak - valley; 
+            peak = null; 
+            valley = null; 
+        }
+    }
+    return sum; 
+};
+
+console.log(maxProfit([1, 2, 3, 4, 5]))
