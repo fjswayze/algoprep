@@ -568,4 +568,72 @@ var maxProfit = function(prices) {
     return sum; 
 };
 
-console.log(maxProfit([1, 2, 3, 4, 5]))
+
+//1320. Minimum Distance to Type a Word Using Two Fingers
+
+var minimumDistance = function (word) {
+    let positions = {
+        "A": [0, 0],
+        "B": [0, 1],
+        "C": [0, 2],
+        "D": [0, 3],
+        "E": [0, 4],
+        "F": [0, 5],
+        "G": [1, 0],
+        "H": [1, 1],
+        "I": [1, 2],
+        "J": [1, 3],
+        "K": [1, 4],
+        "L": [1, 5],
+        "M": [2, 0],
+        "N": [2, 1],
+        "O": [2, 2],
+        "P": [2, 3],
+        "Q": [2, 4],
+        "R": [2, 5],
+        "S": [3, 0],
+        "T": [3, 1],
+        "U": [3, 2],
+        "V": [3, 3],
+        "W": [3, 4],
+        "X": [3, 5],
+        "Y": [4, 0],
+        "Z": [4, 1]
+    }
+    let finger1Distance = 0;
+    let finger1Position = positions[word[0]];
+    let finger2Distance = 0;
+    let finger2Position = findLargestDistance(finger1Position, word, positions)
+    for (let i = 1; i < word.length; i++) {
+        let toF1 = calculateDistance(finger1Position, positions[word[i]]);
+        let toF2 = calculateDistance(finger2Position, positions[word[i]]);
+        if (toF1 < toF2) {
+            finger1Distance += toF1;
+            finger1Position = positions[word[i]];
+        } else {
+            finger2Distance += toF2;
+            finger2Position = positions[word[i]];
+        }
+    }
+    return finger1Distance + finger2Distance;
+
+};
+
+function findLargestDistance(finger1Position, word, positions) {
+    let largest = Number.NEGATIVE_INFINITY;
+    let position = null;
+    for (let i = 0; i < word.length; i++) {
+        let distance = calculateDistance(finger1Position, positions[word[i]]);
+        if (distance > largest) {
+            largest = distance;
+            position = positions[word[i]];
+        }
+    }
+    return position;
+}
+
+function calculateDistance(pos1, pos2) {
+    return Math.abs(pos1[0] - pos2[0]) + Math.abs(pos1[1] - pos2[1]);
+}
+
+console.log(minimumDistance("HAPPY")); 
