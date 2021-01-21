@@ -603,18 +603,34 @@ var minimumDistance = function (word) {
     let finger1Distance = 0;
     let finger1Position = positions[word[0]];
     let finger2Distance = 0;
-    let finger2Position = findLargestDistance(finger1Position, word, positions)
+    let finger2Position = findLargestDistance(finger1Position, word, positions);
+    console.log(finger2Position); 
+    let finger2Positions = { [finger2Position]: true };
     for (let i = 1; i < word.length; i++) {
         let toF1 = calculateDistance(finger1Position, positions[word[i]]);
         let toF2 = calculateDistance(finger2Position, positions[word[i]]);
         if (toF1 < toF2) {
             finger1Distance += toF1;
-            finger1Position = positions[word[i]];
+            finger1Position = positions[word[i]]; 
         } else {
-            finger2Distance += toF2;
-            finger2Position = positions[word[i]];
+        
+            finger2Positions[positions[word[i]]] = true;
         }
     }
+    let hitFirst = false;
+  
+    for (let j = 1; j < word.length; j++) {
+        if (finger2Positions[positions[word[j]]]) {
+            if (!hitFirst) {
+                finger2Position = positions[word[j]];
+                hitFirst = true;
+            } else {
+                finger2Distance += calculateDistance(finger2Position, positions[word[j]]);
+                finger2Position = positions[word[j]]
+            }
+        }
+    }
+    
     return finger1Distance + finger2Distance;
 
 };
@@ -636,4 +652,64 @@ function calculateDistance(pos1, pos2) {
     return Math.abs(pos1[0] - pos2[0]) + Math.abs(pos1[1] - pos2[1]);
 }
 
-console.log(minimumDistance("HAPPY")); 
+
+var addDigits = function (num) {
+    while (num > 9) {
+        let alt = 0;
+        let string = num.toString();
+        for (let i = 0; i < string.length; i++) {
+            alt += parseInt(string[i]);
+        }
+        num = alt;
+    }
+    return num;
+};
+
+
+var reverseWords = function(s) {
+   let array = s.split(" ").reverse(" "); 
+   let returnArray = []; 
+   for(let i = 0; i < array.length; i++){
+      if(array[i] !== " " && array[i] !== "") returnArray.push(array[i]); 
+   }
+   return returnArray.join(" "); 
+   
+};
+
+var searchRange = function(nums, target) {
+    let index = findIndex(nums, target); 
+    if(index === -1) return [-1, -1]; 
+    let start = findStart(nums, index, target); 
+    let last = findLast(nums, index, target); 
+    return [start, last]; 
+};
+
+function findLast(nums, index, target){
+    let last = index; 
+    while(nums[last] === target){
+        last += 1; 
+    }
+    return last - 1; 
+}
+
+function findStart(nums, index, target){
+    let start = index; 
+    while(nums[start] === target) start -= 1; 
+    return start + 1; 
+}
+
+function findIndex(nums, target){
+    if(nums.length < 1) return -1; 
+    let mid = Math.floor(nums.length/2); 
+    let pivot = nums[mid]; 
+    if(pivot === target) return mid; 
+    if(pivot > target) return findIndex(nums.slice(0, mid), target); 
+    if(pivot < target){
+        let result = findIndex(nums.slice(mid + 1), target); 
+        console.log(result); 
+        if(result === -1) return -1; 
+        return mid + 1 + result; 
+    }
+}
+
+console.log(searchRange([1, 2, 3], 3)); 
