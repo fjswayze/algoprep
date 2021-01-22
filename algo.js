@@ -712,4 +712,60 @@ function findIndex(nums, target){
     }
 }
 
-console.log(searchRange([1, 2, 3], 3)); 
+function addArrays(array1, array2) {
+    let longest;
+    let otherArray;
+    if (array1.length >= array2.length) {
+        longest = array1;
+        otherArray = array2;
+    } else {
+        longest = array2;
+        otherArray = array1;
+    }
+    let carryAmount = 0
+    for (let i = 0; i < otherArray.length; i++) {
+        if (carryAmount > 0) {
+            if (longest[i] + otherArray[i] + carryAmount < 10) {
+                longest[i] = longest[i] + otherArray[i] + carryAmount;
+                carryAmount = 0;
+            } else {
+                let sum = longest[i] + otherArray[i] + carryAmount; 
+                carryAmount = 0; 
+                while(sum > 9){
+                    sum -= 10; 
+                    carryAmount += 1; 
+                }
+                longest[i] = sum; 
+            }
+        } else {
+            if (longest[i] + otherArray[i] < 10) {
+                longest[i] = longest[i] + otherArray[i];
+            } else {
+                let sum = longest[i] + otherArray[i];
+                while (sum > 9) {
+                    sum -= 10;
+                    carryAmount += 1;
+                }
+                longest[i] = sum; 
+            }
+        }
+    }
+    for(let i = otherArray.length; i < longest.length; i++){
+        if (carryAmount === 0) break; 
+        let sum = longest[i] + carryAmount; 
+        carryAmount = 0; 
+        if(sum > 9){
+            sum -= 10; 
+            carryAmount += 1; 
+        }
+        longest[i] = sum; 
+    }
+    while(carryAmount > 0){
+        let remainder = carryAmount % 10; 
+        longest.push(remainder); 
+        carryAmount -= 10; 
+    }
+    return longest
+}
+
+console.log(addArrays([9, 9, 9, 9, 9, 9, 9], [9, 9, 9, 9]))
